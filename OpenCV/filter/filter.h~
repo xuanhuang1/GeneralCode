@@ -1,0 +1,17 @@
+/* Name:    Xuan
+
+   Exercise: Midterm
+
+   Date:     
+
+   
+
+   Purpose:  
+   
+   header file
+ */
+
+
+void ghost(const Mat& myImage, Mat& Result);
+void bright(const Mat& myImage, Mat& Result);
+void blur(const Mat& myImage, Mat& Result);

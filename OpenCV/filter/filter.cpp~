@@ -1,0 +1,133 @@
+#include "opencv2/core/core.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include <iostream>
+#include "filter.h"
+
+using namespace cv;
+
+/*void ghost(const Mat& myImage, Mat& Result)
+{
+    CV_Assert(myImage.depth() == CV_8U);  // accept only uchar images
+
+    Result.create(myImage.size(), myImage.type());
+    const int nChannels = myImage.channels();
+
+    for(int j = 1; j < myImage.rows - 1; ++j)
+    {
+      const uchar* previous = myImage.ptr<uchar>(j - 1);
+      const uchar* current  = myImage.ptr<uchar>(j    );
+      const uchar* next     = myImage.ptr<uchar>(j + 1);
+
+      uchar* output = Result.ptr<uchar>(j);
+
+      for(int i = nChannels; i < nChannels * (myImage.cols - 1); ++i)
+        {
+	  if(j%180 > 90){
+	    *output++ = saturate_cast<uchar>( -2*current[i] + 0.4* current[i - nChannels -1] - 2*current[i - nChannels] + 2.5*current[i + nChannels -2] +0.5* previous[i] +0.5* next[i]);
+	  }else{
+	    *output++ = saturate_cast<uchar>( current[i]);
+	  }
+	}
+    }
+
+    Result.row(0).setTo(Scalar(0));
+    Result.row(Result.rows - 1).setTo(Scalar(0));
+    Result.col(0).setTo(Scalar(0));
+    Result.col(Result.cols - 1).setTo(Scalar(0));
+}
+
+void bright(const Mat& myImage, Mat& Result)
+{
+    CV_Assert(myImage.depth() == CV_8U);  // accept only uchar images
+
+    Result.create(myImage.size(), myImage.type());
+    const int nChannels = myImage.channels();
+
+    for(int j = 1; j < myImage.rows - 2; ++j)
+    {
+      const uchar* previous = myImage.ptr<uchar>(j - 2);
+      const uchar* current  = myImage.ptr<uchar>(j    );
+      const uchar* next     = myImage.ptr<uchar>(j + 2);
+
+      uchar* output = Result.ptr<uchar>(j);
+
+      for(int i = nChannels; i < nChannels * (myImage.cols - 2); ++i)
+        {
+	  *output++ = saturate_cast<uchar>( 1.3*current[i] - 0.2*current[i - nChannels -1] - 0.1*current[i + nChannels -2] +0.1* previous[i] +0.1* next[i]);
+	}
+    }
+
+    Result.row(0).setTo(Scalar(0));
+    Result.row(Result.rows - 1).setTo(Scalar(0));
+    Result.col(0).setTo(Scalar(0));
+    Result.col(Result.cols - 1).setTo(Scalar(0));
+}
+
+void blur(const Mat& myImage, Mat& Result)
+{
+    CV_Assert(myImage.depth() == CV_8U);  // accept only uchar images
+
+    Result.create(myImage.size(), myImage.type());
+    const int nChannels = myImage.channels();
+
+    for(int j = 3; j < myImage.rows - 3; ++j)
+    {
+        const uchar* previous = myImage.ptr<uchar>(j - 3);
+        const uchar* current  = myImage.ptr<uchar>(j    );
+        const uchar* next     = myImage.ptr<uchar>(j + 3);
+
+        uchar* output = Result.ptr<uchar>(j);
+
+        for(int i = nChannels; i < nChannels * (myImage.cols - 1); ++i)
+        {
+            *output++ = saturate_cast<uchar>( 0.2*current[i] + 0.2*current[i - nChannels] + 0.2*current[i + nChannels] + 0.2*previous[i] + 0.2*next[i]);
+        }
+    }
+
+    Result.row(0).setTo(Scalar(0));
+    Result.row(Result.rows - 1).setTo(Scalar(0));
+    Result.col(0).setTo(Scalar(0));
+    Result.col(Result.cols - 1).setTo(Scalar(0));
+}*/
+
+
+int main(int argc, char ** agrv){
+  Mat src,f1,f2,f3,f4,f5,f6;
+  std::cout<< "---------filter---------"<<std::endl;
+
+  src = imread("/home/xhuang1/CS246/hw4Midterm/pro2/beyisbae.png");
+
+  if(!src.data){
+    std::cerr << "Error loading src \n"<<std::endl;
+  }
+
+  namedWindow("src", 1);
+  namedWindow("blur", 2);
+  namedWindow("bright", 3);
+  namedWindow("ghost", 4);
+  namedWindow("bright+ghost", 5);
+  namedWindow("bright+blur", 6);
+  namedWindow("ghost+blur", 7);
+
+  blur(src, f1);
+  bright(src, f2);
+  ghost(src, f3);
+  bright(f3, f4);
+  bright(f2, f5);
+  ghost(f1, f6);
+
+  imshow("src", src);
+  imshow("blur", f1);
+  imshow("bright", f2);
+  imshow("bright+blur", f5);
+  imshow("bright+ghost", f4);
+  imshow("ghost", f3);
+  imshow("ghost+blur", f6);
+
+  //Wirte image
+  // imwrite( "secretMessage.png", result );
+
+  waitKey(0);
+  return 0;
+}
+
