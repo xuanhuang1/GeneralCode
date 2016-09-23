@@ -1,0 +1,18 @@
+This is a Tetris game with:
+-Scoring system (printed at concole)
+-Rotatabel Tetriminos (won't rorated unless there is not enough space to do so)
+-Restricted boundary when moving
+-Graphic interface accepting keyboard input
+-Stop and quit when fail (printed at concole)
+
+
+Playing instruction:
+
+-A Tetrimino falls from the upmost center place of the 10*10 board each round. 
+
+-It goes down slowly and the user press the left or right key to change their position horizontally. 
+
+-Press the down key to drop the Tetrimino as low as it could reach, and up key to rotate the Tetrimino if the space around is available.
+
+-Whenever a row is full, the row disappear and a 100 is added to total score. Everything above falls a level down
+
